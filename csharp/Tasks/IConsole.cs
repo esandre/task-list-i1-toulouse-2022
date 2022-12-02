@@ -1,15 +1,14 @@
 ﻿using System;
 
-namespace Tasks
+namespace Tasks;
+
+public interface IConsole
 {
-	public interface IConsole
-	{
-		string ReadLine();
+    string ReadLine();
 
-		void Write(string format);
+    void Write(string format);
 
-		void WriteLine(string format);
+    void WriteLine(string format);
 
-		void WriteLine();
-	}
+    void WriteLine();
 }

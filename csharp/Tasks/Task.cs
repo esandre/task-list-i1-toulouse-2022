@@ -1,13 +1,12 @@
 using Tasks.Types;
 
-namespace Tasks
+namespace Tasks;
+
+internal class Task
 {
-	internal class Task
-	{
-		public TaskIdentifier Identifier { get; init; }
+    public TaskIdentifier Identifier { get; init; }
 
-		public string Description { get; init; }
+    public string Description { get; init; }
 
-		public Done Done { get; set; }
-	}
+    public Done Done { get; set; }
 }
