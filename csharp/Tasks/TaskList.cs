@@ -10,7 +10,7 @@ namespace Tasks
 		private readonly Projects _projects = new ();
 		private readonly IConsole _console;
 
-		private long _lastIdentifier;
+		private TaskIdentifier _lastIdentifier;
 
 		public static void Main()
 		{
@@ -20,7 +20,8 @@ namespace Tasks
 		public TaskList(IConsole console)
 		{
 			this._console = console;
-		}
+            this._lastIdentifier = TaskIdentifier.First();
+        }
 
 		public void Run(CancellationToken token)
         {
@@ -89,9 +90,11 @@ namespace Tasks
 		private void AddTask(string project, string description)
         {
             _projects.AddTaskToProject(project,
-                new Task { Identifier = NextId(), Description = description, Done = Done.No },
+                new Task { Identifier = _lastIdentifier, Description = description, Done = Done.No },
 				_console
             );
+
+            _lastIdentifier = _lastIdentifier.Next();
         }
 
 		private void Check(string idString)
@@ -120,11 +123,6 @@ namespace Tasks
 		private void Error(string command)
 		{
 			_console.WriteLine($"I don't know what the command \"{command}\" is.");
-		}
-
-		private long NextId()
-		{
-			return ++_lastIdentifier;
 		}
 	}
 }

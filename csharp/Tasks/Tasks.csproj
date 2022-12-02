@@ -4,5 +4,6 @@
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
     <StartupObject>Tasks.TaskList</StartupObject>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 </Project>

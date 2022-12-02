@@ -24,7 +24,7 @@ namespace Tasks
         public void SetDoneIfExists(string identifier, Done done, IConsole console)
         {
             var identifiedTask = _tasks
-                .FirstOrDefault(task => task.Identifier == long.Parse(identifier));
+                .FirstOrDefault(task => task.Identifier.Equals(identifier));
 
             if (identifiedTask != null) identifiedTask.Done = done;
         }
