@@ -38,6 +38,31 @@ internal class ConsoleCommand
             (projects, console) => projects.SetTaskDone(TaskIdentifier.Parse(argument), Done.No, console)
         );
 
+    public static ConsoleCommand Add(string argument)
+        => new("uncheck",
+            (projects, console) =>
+            {
+                var subcommandRest = argument.Split(' ', 2);
+                var subcommand = subcommandRest[0];
+
+                if (subcommand == "project")
+                {
+                    projects.Add(new ProjectName(subcommandRest[1]));
+                    return;
+                }
+
+                if (subcommand == "task")
+                {
+                    var projectTask = subcommandRest[1].Split(' ', 2);
+
+                    var projectName = new ProjectName(projectTask[0]);
+                    var description = new TaskDescription(projectTask[1]);
+
+                    projects.AddTaskToProject(projectName, description, console);
+                }
+            }
+        );
+
     public static ConsoleCommand Help
         => new("help",
             (_, console) =>

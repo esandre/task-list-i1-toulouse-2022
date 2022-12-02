@@ -7,6 +7,7 @@ namespace Tasks;
 internal class Projects
 {
     private readonly IDictionary<ProjectName, Project> _projects = new Dictionary<ProjectName, Project>();
+    private TaskIdentifier _lastIdentifier = TaskIdentifier.First();
 
     public void Add(ProjectName name)
     {
@@ -23,7 +24,17 @@ internal class Projects
         }
     }
 
-    public void AddTaskToProject(ProjectName projectName, Task task, IConsole console)
+    private TaskIdentifier NextIdentifier
+    {
+        get
+        {
+            var identifier = _lastIdentifier;
+            _lastIdentifier = _lastIdentifier.Next();
+            return identifier;
+        }
+    }
+
+    public void AddTaskToProject(ProjectName projectName, TaskDescription description, IConsole console)
     {
         if (!_projects.TryGetValue(projectName, out var project))
         {
@@ -31,7 +42,7 @@ internal class Projects
             return;
         }
 
-        project.Add(task);
+        project.Add(new Task { Description = description, Done = Done.No, Identifier = NextIdentifier });
     }
 
     public void SetTaskDone(TaskIdentifier taskIdentifier, Done done, IConsole console)
