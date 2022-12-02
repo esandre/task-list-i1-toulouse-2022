@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Tasks.Types;
 
 namespace Tasks
 {
@@ -18,11 +17,11 @@ namespace Tasks
         {
             foreach (var task in _tasks)
             {
-                console.WriteLine($"    [{(task.Done ? 'x' : ' ')}] {task.Identifier}: {task.Description}");
+                console.WriteLine($"    [{task.Done}] {task.Identifier}: {task.Description}");
             }
         }
 
-        public void SetDoneIfExists(string identifier, bool done, IConsole console)
+        public void SetDoneIfExists(string identifier, Done done, IConsole console)
         {
             var identifiedTask = _tasks
                 .FirstOrDefault(task => task.Identifier == long.Parse(identifier));

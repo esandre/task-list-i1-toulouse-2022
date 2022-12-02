@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Tasks.Types;
 
 namespace Tasks
 {
@@ -33,7 +34,7 @@ namespace Tasks
             project.Add(task);
         }
 
-        public void SetTaskDone(string taskIdentifier, bool done, IConsole console)
+        public void SetTaskDone(string taskIdentifier, Done done, IConsole console)
         {
             foreach (var project in _projects.Values)
                 project.SetDoneIfExists(taskIdentifier, done, console);

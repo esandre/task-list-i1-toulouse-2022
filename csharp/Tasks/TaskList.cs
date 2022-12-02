@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using Tasks.Types;
 
 namespace Tasks
 {
@@ -88,22 +89,22 @@ namespace Tasks
 		private void AddTask(string project, string description)
         {
             _projects.AddTaskToProject(project,
-                new Task { Identifier = NextId(), Description = description, Done = false },
+                new Task { Identifier = NextId(), Description = description, Done = Done.No },
 				_console
             );
         }
 
 		private void Check(string idString)
 		{
-			SetDone(idString, true);
+			SetDone(idString, Done.Yes);
 		}
 
 		private void Uncheck(string idString)
 		{
-			SetDone(idString, false);
+			SetDone(idString, Done.No);
 		}
 
-        private void SetDone(string idString, bool done) => _projects.SetTaskDone(idString, done, _console);
+        private void SetDone(string idString, Done done) => _projects.SetTaskDone(idString, done, _console);
 
 		private void Help()
 		{
