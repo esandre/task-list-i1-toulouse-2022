@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using Tasks.Types;
 
 namespace Tasks;
@@ -44,34 +45,32 @@ public sealed class TaskList
 
     private void Execute(string commandLine)
     {
-        var commandRest = commandLine.Split(" ".ToCharArray(), 2);
+        var commandRest = commandLine.Split(' ', 2);
         var command = commandRest[0];
         switch (command) {
             case "show":
-                Show();
+                ConsoleCommand.Show.Execute(_projects, _console);
                 return;
             case "add":
                 Add(commandRest[1]);
                 return;
             case "check":
-                Check(TaskIdentifier.Parse(commandRest[1]));
+                ConsoleCommand.Check(commandRest.Last()).Execute(_projects, _console);
                 return;
             case "uncheck":
-                Uncheck(TaskIdentifier.Parse(commandRest[1]));
+                ConsoleCommand.Uncheck(commandRest.Last()).Execute(_projects, _console);
                 return;
             case "help":
-                Help();
+                ConsoleCommand.Help.Execute(_projects, _console);
                 return;
         }
 
-        Error(command);
+        ConsoleCommand.Error(command).Execute(_projects, _console);
     }
-
-    private void Show() => _projects.PrintInto(_console);
 
     private void Add(string commandLine)
     {
-        var subcommandRest = commandLine.Split(" ".ToCharArray(), 2);
+        var subcommandRest = commandLine.Split(' ', 2);
         var subcommand = subcommandRest[0];
 
         if (subcommand == "project") {
@@ -80,14 +79,14 @@ public sealed class TaskList
         }
             
         if (subcommand == "task") {
-            var projectTask = subcommandRest[1].Split(" ".ToCharArray(), 2);
-            AddTask(new ProjectName(projectTask[0]), projectTask[1]);
+            var projectTask = subcommandRest[1].Split(' ', 2);
+            AddTask(new ProjectName(projectTask[0]), new TaskDescription(projectTask[1]));
         }
     }
 
     private void AddProject(ProjectName name) => _projects.Add(name);
 
-    private void AddTask(ProjectName project, string description)
+    private void AddTask(ProjectName project, TaskDescription description)
     {
         _projects.AddTaskToProject(project,
             new Task { Identifier = _lastIdentifier, Description = description, Done = Done.No },
@@ -109,20 +108,4 @@ public sealed class TaskList
 
     private void SetDone(TaskIdentifier taskIdentifier, Done done) 
         => _projects.SetTaskDone(taskIdentifier, done, _console);
-
-    private void Help()
-    {
-        _console.WriteLine("Commands:");
-        _console.WriteLine("  show");
-        _console.WriteLine("  add project <project name>");
-        _console.WriteLine("  add task <project name> <task description>");
-        _console.WriteLine("  check <task ID>");
-        _console.WriteLine("  uncheck <task ID>");
-        _console.WriteLine();
-    }
-
-    private void Error(string command)
-    {
-        _console.WriteLine($"I don't know what the command \"{command}\" is.");
-    }
 }
