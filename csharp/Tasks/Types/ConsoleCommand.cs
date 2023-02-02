@@ -30,12 +30,12 @@ internal class ConsoleCommand
 
     public static ConsoleCommand Check(string argument)
         => new("check",
-            (projects, console) => projects.SetTaskDone(TaskIdentifier.Parse(argument), Done.Yes, console)
+            (projects, _) => projects.MakeTaskDone(TaskIdentifier.Parse(argument))
         );
 
     public static ConsoleCommand Uncheck(string argument)
         => new("uncheck",
-            (projects, console) => projects.SetTaskDone(TaskIdentifier.Parse(argument), Done.No, console)
+            (projects, _) => projects.MakeTaskUndone(TaskIdentifier.Parse(argument))
         );
 
     public static ConsoleCommand Add(string argument)

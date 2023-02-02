@@ -14,7 +14,7 @@ internal class TaskIdentifier : IEquatable<TaskIdentifier>
     }
 
     public TaskIdentifier Next() 
-        => new TaskIdentifier(_identifier + 1);
+        => new (_identifier + 1);
     
     /// <inheritdoc />
     public override string ToString() 

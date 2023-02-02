@@ -41,12 +41,18 @@ internal class Projects
             return;
         }
 
-        project.Add(new Task { Description = description, Done = Done.No, Identifier = NextIdentifier });
+        project.Add(new Task(NextIdentifier, description));
     }
 
-    public void SetTaskDone(TaskIdentifier taskIdentifier, Done done, IConsole console)
+    public void MakeTaskDone(TaskIdentifier taskIdentifier)
     {
         foreach (var project in _projects.Values)
-            project.SetDoneIfExists(taskIdentifier, done, console);
+            project.MakeDoneIfExists(taskIdentifier);
+    }
+
+    public void MakeTaskUndone(TaskIdentifier taskIdentifier)
+    {
+        foreach (var project in _projects.Values)
+            project.MakeUndoneIfExists(taskIdentifier);
     }
 }

@@ -13,14 +13,22 @@ internal class Project
     public void PrintInto(IConsole console)
     {
         foreach (var task in _tasks)
-            console.WriteLine($"    [{task.Done}] {task.Identifier}: {task.Description}");
+            task.PrintInto(console);
     }
 
-    public void SetDoneIfExists(TaskIdentifier identifier, Done done, IConsole console)
+    public void MakeDoneIfExists(TaskIdentifier identifier)
     {
         var identifiedTask = _tasks
             .FirstOrDefault(task => task.Identifier.Equals(identifier));
 
-        if (identifiedTask != null) identifiedTask.Done = done;
+        identifiedTask?.MakeDone();
+    }
+
+    public void MakeUndoneIfExists(TaskIdentifier identifier)
+    {
+        var identifiedTask = _tasks
+            .FirstOrDefault(task => task.Identifier.Equals(identifier));
+
+        identifiedTask?.MakeUndone();
     }
 }
