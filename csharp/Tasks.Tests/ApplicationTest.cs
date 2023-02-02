@@ -1,24 +1,23 @@
 using System;
-using System.IO;
 using System.Threading;
 using NUnit.Framework;
 
-namespace Tasks;
+namespace Tasks.Tests;
 
 [TestFixture]
 public sealed class ApplicationTest
 {
-    public const string PROMPT = "> ";
+    public const string Prompt = "> ";
 
-    private FakeConsole console;
+    private FakeConsole _console;
     private CancellationTokenSource _cancellationToken;
     private IDisposable _runTask;
 
     [SetUp]
     public void StartTheApplication()
     {
-        this.console = new FakeConsole();
-        var taskList = new TaskList(console);
+        _console = new FakeConsole();
+        var taskList = new TaskList(_console);
         _cancellationToken = new CancellationTokenSource();
         _runTask = System.Threading.Tasks.Task.Run(() => taskList.Run(_cancellationToken.Token));
     }
@@ -81,14 +80,14 @@ public sealed class ApplicationTest
 
     private void Execute(string command)
     {
-        Read(PROMPT);
+        Read(Prompt);
         Write(command);
     }
 
     private void Read(string expectedOutput)
     {
         var length = expectedOutput.Length;
-        var actualOutput = console.RetrieveOutput(expectedOutput.Length);
+        var actualOutput = _console.RetrieveOutput(length);
         Assert.AreEqual(expectedOutput, actualOutput);
     }
 
@@ -102,6 +101,6 @@ public sealed class ApplicationTest
 
     private void Write(string input)
     {
-        console.SendInput(input + Environment.NewLine);
+        _console.SendInput(input + Environment.NewLine);
     }
 }

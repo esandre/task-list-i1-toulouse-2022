@@ -4,9 +4,9 @@ namespace Tasks;
 
 internal class Task
 {
-    public TaskIdentifier Identifier { get; init; }
+    public required TaskIdentifier Identifier { get; init; }
 
-    public TaskDescription Description { get; init; }
+    public required TaskDescription Description { get; init; }
 
-    public Done Done { get; set; }
+    public required Done Done { get; set; }
 }

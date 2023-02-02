@@ -6,7 +6,7 @@ public class RealConsole : IConsole
 {
     public string ReadLine()
     {
-        return Console.ReadLine();
+        return Console.ReadLine() ?? string.Empty;
     }
 
     public void Write(string format)

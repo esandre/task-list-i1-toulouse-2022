@@ -1,34 +1,32 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading;
 
-namespace Tasks;
+namespace Tasks.Tests;
 
 public class BlockingStream : Stream
 {
-    private readonly Stream underlyingStream;
+    private readonly Stream _underlyingStream;
 
     public BlockingStream(Stream underlyingStream)
     {
-        this.underlyingStream = underlyingStream;
+        this._underlyingStream = underlyingStream;
     }
 
     public override void Flush()
     {
-        lock (underlyingStream)
+        lock (_underlyingStream)
         {
-            underlyingStream.Flush();
+            _underlyingStream.Flush();
         }
     }
 
     public override int Read(byte[] buffer, int offset, int count)
     {
-        int read = 0;
         while (true)
         {
-            lock (underlyingStream)
+            lock (_underlyingStream)
             {
-                read = underlyingStream.Read(buffer, offset, count);
+                var read = _underlyingStream.Read(buffer, offset, count);
                 if (read > 0)
                 {
                     return read;
@@ -41,30 +39,36 @@ public class BlockingStream : Stream
 
     public override long Seek(long offset, SeekOrigin origin)
     {
-        lock (underlyingStream)
+        lock (_underlyingStream)
         {
-            return underlyingStream.Seek(offset, origin);
+            return _underlyingStream.Seek(offset, origin);
         }
     }
 
     public override void Write(byte[] buffer, int offset, int count)
     {
-        lock (underlyingStream)
+        lock (_underlyingStream)
         {
-            underlyingStream.Write(buffer, offset, count);
+            _underlyingStream.Write(buffer, offset, count);
         }
     }
 
     public override void SetLength(long value)
     {
-        underlyingStream.SetLength(value);
+        lock (_underlyingStream)
+        {
+            _underlyingStream.SetLength(value);
+        }
     }
 
     public override bool CanRead
     {
         get
         {
-            return underlyingStream.CanRead;
+            lock (_underlyingStream)
+            {
+                return _underlyingStream.CanRead;
+            }
         }
     }
 
@@ -72,9 +76,9 @@ public class BlockingStream : Stream
     {
         get
         {
-            lock (underlyingStream)
+            lock (_underlyingStream)
             {
-                return underlyingStream.CanSeek;
+                return _underlyingStream.CanSeek;
             }
         }
     }
@@ -83,9 +87,9 @@ public class BlockingStream : Stream
     {
         get
         {
-            lock (underlyingStream)
+            lock (_underlyingStream)
             {
-                return underlyingStream.CanWrite;
+                return _underlyingStream.CanWrite;
             }
         }
     }
@@ -94,9 +98,9 @@ public class BlockingStream : Stream
     {
         get
         {
-            lock (underlyingStream)
+            lock (_underlyingStream)
             {
-                return underlyingStream.Length;
+                return _underlyingStream.Length;
             }
         }
     }
@@ -105,16 +109,16 @@ public class BlockingStream : Stream
     {
         get
         {
-            lock (underlyingStream)
+            lock (_underlyingStream)
             {
-                return underlyingStream.Position;
+                return _underlyingStream.Position;
             }
         }
         set
         {
-            lock (underlyingStream)
+            lock (_underlyingStream)
             {
-                underlyingStream.Position = value;
+                _underlyingStream.Position = value;
             }
         }
     }
