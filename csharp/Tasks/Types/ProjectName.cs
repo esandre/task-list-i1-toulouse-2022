@@ -33,7 +33,4 @@ internal class ProjectName : IEquatable<ProjectName>
 
     /// <inheritdoc />
     public override int GetHashCode() => _name.GetHashCode();
-
-    public static bool operator ==(ProjectName? left, ProjectName? right) => Equals(left, right);
-    public static bool operator !=(ProjectName? left, ProjectName? right) => !Equals(left, right);
 }

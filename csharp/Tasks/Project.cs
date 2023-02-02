@@ -7,7 +7,7 @@ namespace Tasks;
 internal class Project
 {
     private readonly IList<Task> _tasks = new List<Task>();
-
+    
     public void Add(Task task) => _tasks.Add(task);
 
     public void PrintInto(IConsole console)

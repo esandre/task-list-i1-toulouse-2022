@@ -2,7 +2,7 @@
 
 namespace Tasks.Types;
 
-internal class TaskIdentifier : IEquatable<TaskIdentifier>
+internal class TaskIdentifier : IEquatable<TaskIdentifier>, IComparable<TaskIdentifier>
 {
     public static TaskIdentifier First() => new (1);
 
@@ -30,6 +30,9 @@ internal class TaskIdentifier : IEquatable<TaskIdentifier>
         if (ReferenceEquals(this, other)) return true;
         return _identifier == other._identifier;
     }
+
+    /// <inheritdoc />
+    public int CompareTo(TaskIdentifier? other) => _identifier.CompareTo(other?._identifier);
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
