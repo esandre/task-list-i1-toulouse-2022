@@ -11,4 +11,6 @@ internal class TaskDescription
 
     /// <inheritdoc />
     public override string ToString() => _description;
+
+    public void PrintInto(IConsole console) => console.Write(_description);
 }

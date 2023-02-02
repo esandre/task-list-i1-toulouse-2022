@@ -15,10 +15,10 @@ internal class Projects
 
     public void PrintInto(IConsole console)
     {
-        foreach (var project in _projects)
+        foreach (var (projectName, project) in _projects)
         {
-            console.WriteLine(project.Key.ToString()!);
-            project.Value.PrintInto(console);
+            console.WriteLine(projectName.ToString()!);
+            project.PrintInto(console);
             console.WriteLine();
         }
     }

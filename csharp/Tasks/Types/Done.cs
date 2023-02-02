@@ -14,4 +14,9 @@ internal class Done
 
     /// <inheritdoc />
     public override string ToString() => _representation.ToString();
+
+    public void PrintInto(IConsole console)
+    {
+        console.Write(_representation.ToString());
+    }
 }

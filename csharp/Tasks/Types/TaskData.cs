@@ -11,23 +11,11 @@ internal class TaskData
         _status = status;
     }
 
-    public void MakeUndone()
-    {
-        _status = Done.No;
-    }
+    public void MakeUndone() => _status = Done.No;
 
-    public void MakeDone()
-    {
-        _status = Done.Yes;
-    }
+    public void MakeDone() => _status = Done.Yes;
 
-    public void PrintDoneInto(IConsole console)
-    {
-        console.Write(_status.ToString());
-    }
+    public void PrintDoneInto(IConsole console) => _status.PrintInto(console);
 
-    public void PrintDescriptionInto(IConsole console)
-    {
-        console.Write(_description.ToString());
-    }
+    public void PrintDescriptionInto(IConsole console) => _description.PrintInto(console);
 }

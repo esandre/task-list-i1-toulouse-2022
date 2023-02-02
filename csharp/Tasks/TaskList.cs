@@ -37,16 +37,17 @@ public sealed class TaskList
 
     private void Execute(string commandLine)
     {
-        var commandRest = commandLine.Split(' ', 2);
-        var commandVerb = commandRest[0];
+        var commandParts = commandLine.Split(' ', 2);
+        var commandVerb = commandParts.First();
+        var commandRest = commandParts.Last();
 
         var command =
             commandVerb switch
             {
                 "show"    => ConsoleCommand.Show,
-                "add"     => ConsoleCommand.Add(commandRest.Last()),
-                "check"   => ConsoleCommand.Check(commandRest.Last()),
-                "uncheck" => ConsoleCommand.Uncheck(commandRest.Last()),
+                "add"     => ConsoleCommand.Add(commandRest),
+                "check"   => ConsoleCommand.Check(commandRest),
+                "uncheck" => ConsoleCommand.Uncheck(commandRest),
                 "help"    => ConsoleCommand.Help,
                 _         => ConsoleCommand.Error(commandVerb)
             };

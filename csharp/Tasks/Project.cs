@@ -19,7 +19,7 @@ internal class Project
     public void MakeDoneIfExists(TaskIdentifier identifier)
     {
         var identifiedTask = _tasks
-            .FirstOrDefault(task => task.Identifier.Equals(identifier));
+            .FirstOrDefault(task => task.Equals(identifier));
 
         identifiedTask?.MakeDone();
     }
@@ -27,7 +27,7 @@ internal class Project
     public void MakeUndoneIfExists(TaskIdentifier identifier)
     {
         var identifiedTask = _tasks
-            .FirstOrDefault(task => task.Identifier.Equals(identifier));
+            .FirstOrDefault(task => task.Equals(identifier));
 
         identifiedTask?.MakeUndone();
     }
