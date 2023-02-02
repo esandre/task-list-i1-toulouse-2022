@@ -19,7 +19,7 @@ internal class ConsoleCommand
     /// <inheritdoc />
     public override string ToString() => _verb;
 
-    public static readonly ConsoleCommand Show = new ConsoleCommand("show",
+    public static readonly ConsoleCommand Show = new ("show",
         (projects, console) => projects.PrintInto(console)
     );
 
